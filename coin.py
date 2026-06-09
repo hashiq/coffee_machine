@@ -1,16 +1,12 @@
 def coin_opration():
     def coin_check(coinName, coinValue):
         if coinName == "quarter":
-
             return coinValue * 0.25
         elif coinName == "dime":
-
             return coinValue * 0.10
         elif coinName == "nickel":
-
             return coinValue * 0.05
         elif coinName == "pennie":
-
             return coinValue * 0.01
     quarters = float(input("How many quarters :"))
     dimes = float(input("How many dimes :"))

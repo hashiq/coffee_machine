@@ -6,7 +6,6 @@ MENU = {
 }
 resources = {"water": 300,"milk": 200,"coffee": 100,}
 
-
 user = input("What would you like? espresso/latte/cappuccino :").lower()
 if user == "report":
     print(resources)
