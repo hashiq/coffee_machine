@@ -19,6 +19,7 @@ def coin_opration():
     coin_total = 0
     for keys, values in coin.items():
         coin_total += coin_check(coinName=keys, coinValue=values)
-    return f"{round(coin_total,2)}"
+    return round(coin_total,2)
 
-print(coin_opration())
+if __name__ == "__main__":
+    print(coin_opration())
