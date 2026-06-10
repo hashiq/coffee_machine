@@ -67,7 +67,6 @@ while machine:
                 print(f"insufficient amount {cents}")
                 machine = False
                 print("System exited")
-
     elif user == "espresso":
             coffee_cost = MENU[user]["cost"]
             latte_check = check_coffee(coffeeName=user)
