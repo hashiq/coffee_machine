@@ -1,5 +1,3 @@
-from platform import machine
-
 from coin import coin_opration
 machine =True
 MENU = {
@@ -7,102 +5,61 @@ MENU = {
     "latte": {"ingredients": { "water": 200,"milk": 150,"coffee": 24,},"cost": 2.5,},
     "cappuccino": { "ingredients": {"water": 250, "milk": 100,"coffee": 24, },"cost": 3.0,}
 }
-resources = {"water": 500,"milk": 500,"coffee": 500,"money":0}
+resources = {"water": 500,"milk": 500,"coffee": 100,"money":0}
+
 
 #checking the resource for coffe
 def check_coffee(coffeeName):
-    enough_resource = True
-    if coffeeName == "latte":
-        for ingredientName, ingredientQty in MENU[coffeeName]["ingredients"].items():
-            if resources[ingredientName] >= ingredientQty:
-                pass
-            else:
-                 print(f"Sorry there is not enough {ingredientName}")
-                 enough_resource = False
-    elif coffeeName == "espresso":
-        for ingredientName, ingredientQty in MENU[coffeeName]["ingredients"].items():
-            if resources[ingredientName] >= ingredientQty:
-                pass
-            else:
-                 print(f"Sorry there is not enough {ingredientName}")
-                 enough_resource = False
-    elif coffeeName == "cappuccino":
-        for ingredientName, ingredientQty in MENU[coffeeName]["ingredients"].items():
-            if resources[ingredientName] >= ingredientQty:
-                pass
-            else:
-                 print(f"Sorry there is not enough {ingredientName}")
-                 enough_resource = False
-    return enough_resource
+    enugh_resource =True
+    ingredients= MENU[coffeeName]["ingredients"]
 
-def reduce_stock(coffee_Name):
-    if coffee_Name == "latte":
-        water =  MENU[coffee_Name]["ingredients"]["water"]
-        resources["water"]= resources["water"] - water
-        coffee = MENU[coffee_Name]["ingredients"]["coffee"]
-        resources["coffee"] = resources["coffee"] - coffee
-        milk = MENU[coffee_Name]["ingredients"]["milk"]
-        resources["milk"] = resources["milk"] - milk
+    for item in ingredients:
+        if resources[item] < ingredients[item]:
+            print(f"sorry we dont have: {item} ")
+            enugh_resource = False
+    return enugh_resource
+
+
+
+
+def reduce_stock(coffe_menu):
+    ingredients= MENU[coffeeName]["ingredients"]
+  #-----------------------------------------------#
+  #enter reduce stock here
+    # -----------------------------------------------#
+
     return resources
 
-#machine is running or not for serve
+
+# machine is running or not for serve
 while machine:
-    user = input("What would you like? espresso/latte/cappuccino :").lower()
     cents = 0
     balance = 0
+    user = input("What would you like? espresso/latte/cappuccino :").lower()
+    #report
     if user == "report":
         print(resources)
-    elif user == "latte":
+
+    #MACHINE OFF OR ON
+    elif user == "off":
+        print("power turned off ")
+        machine = False
+     #CHECK MENUS matching WITH USER
+    elif user in MENU:
         coffee_cost = MENU[user]["cost"]
-        latte_check = check_coffee(coffeeName=user)
-        if latte_check == True:
+        coffee_check = check_coffee(coffeeName=user)
+        if coffee_check == True:
             cents = coin_opration()
             if cents >= coffee_cost:
-                print(f"resource remain {reduce_stock(coffee_Name = user)}")
-                balance = round(cents - coffee_cost,2)
-                print(f"You owne {cents}")
+                resources["money"] += coffee_cost
+                reduce_stock(coffe_menu = user)
+                balance = round(cents - coffee_cost, 2)
                 print(f"coffee {coffee_cost}")
-                print(f"Here is ${balance} in chagne")
+                print(f"You owe {cents}")
+                print(f"Here is ${balance} in change")
+                print(f"Here is your {user} ☕ Enjoy!")
+                print(resources)
             elif cents < coffee_cost:
                 print(f"insufficient amount {cents}")
                 machine = False
                 print("System exited")
-    elif user == "espresso":
-            coffee_cost = MENU[user]["cost"]
-            latte_check = check_coffee(coffeeName=user)
-            if latte_check == True:
-                cents = coin_opration()
-                if cents >= coffee_cost:
-                    print(f"resource remain {reduce_stock(coffee_Name=user)}")
-                    balance = round(cents - coffee_cost, 2)
-                    print(f"You owne {cents}")
-                    print(f"coffee {coffee_cost}")
-                    print(f"Here is ${balance} in chagne")
-                elif cents < coffee_cost:
-                    print(f"insufficient amount {cents}")
-                    machine = False
-                    print("System exited")
-
-    elif user == "cappuccino":
-            coffee_cost = MENU[user]["cost"]
-            latte_check = check_coffee(coffeeName=user)
-            if latte_check == True:
-                cents = coin_opration()
-                if cents >= coffee_cost:
-                    print(f"resource remain {reduce_stock(coffee_Name=user)}")
-                    balance = round(cents - coffee_cost, 2)
-                    print(f"You owne {cents}")
-                    print(f"coffee {coffee_cost}")
-                    print(f"Here is ${balance} in chagne")
-                elif cents < coffee_cost:
-                    print(f"insufficient amount {cents}")
-                    machine = False
-                    print("System exited")
-
-
-
-
-
-
-
-
