@@ -5,40 +5,38 @@ MENU = {
     "latte": {"ingredients": { "water": 200,"milk": 150,"coffee": 24,},"cost": 2.5,},
     "cappuccino": { "ingredients": {"water": 250, "milk": 100,"coffee": 24, },"cost": 3.0,}
 }
-resources = {"water": 500,"milk": 500,"coffee": 100,"money":0}
+resources = {"water": 500,"milk": 300,"coffee": 100,"money":0}
 
 
 #checking the resource for coffe
 def check_coffee(coffeeName):
-    enugh_resource =True
     ingredients= MENU[coffeeName]["ingredients"]
-
     for item in ingredients:
         if resources[item] < ingredients[item]:
             print(f"sorry we dont have: {item} ")
-            enugh_resource = False
-    return enugh_resource
-
+            return False
+    return True
 
 
 
 def reduce_stock(coffe_menu):
-    ingredients= MENU[coffeeName]["ingredients"]
-  #-----------------------------------------------#
-  #enter reduce stock here
-    # -----------------------------------------------#
+    ingredients= MENU[coffe_menu]["ingredients"]
+    for items in ingredients:
+        resources[items] -=ingredients[items]
 
-    return resources
 
 
 # machine is running or not for serve
 while machine:
-    cents = 0
-    balance = 0
-    user = input("What would you like? espresso/latte/cappuccino :").lower()
+
+    user = input("Welcome to windys coffee\nWhat would you like? espresso/latte/cappuccino :").lower()
     #report
     if user == "report":
-        print(resources)
+        print(f"Water : {resources['water']}ml")
+        print(f"Milk  : {resources['milk']}ml")
+        print(f"Coffee: {resources['coffee']}g")
+        print(f"Money : ${resources['money']}")
+        print("\n"*3)
 
     #MACHINE OFF OR ON
     elif user == "off":
@@ -48,18 +46,19 @@ while machine:
     elif user in MENU:
         coffee_cost = MENU[user]["cost"]
         coffee_check = check_coffee(coffeeName=user)
-        if coffee_check == True:
-            cents = coin_opration()
-            if cents >= coffee_cost:
+        if coffee_check :
+            dollars = coin_opration()
+            if dollars >= coffee_cost:
                 resources["money"] += coffee_cost
                 reduce_stock(coffe_menu = user)
-                balance = round(cents - coffee_cost, 2)
+                balance = round(dollars - coffee_cost, 2)
                 print(f"coffee {coffee_cost}")
-                print(f"You owe {cents}")
+                print(f"You owe {dollars}")
                 print(f"Here is ${balance} in change")
                 print(f"Here is your {user} ☕ Enjoy!")
-                print(resources)
-            elif cents < coffee_cost:
-                print(f"insufficient amount {cents}")
-                machine = False
-                print("System exited")
+            else:
+                print(f"Sorry that's not enough money. Money refunded ${dollars}")
+    else:
+        print(" :) please put a valid input")
+        print("Thank you")
+        print(" \n"*3)
